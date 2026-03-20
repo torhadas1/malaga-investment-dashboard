@@ -19,11 +19,19 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/listings.json')
-      .then(r => r.json())
+    const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+    fetch(`${basePath}/listings.json`)
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((data: Listing[]) => {
         setListings(data);
         setSelectedListing(data[0] || null);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to load listings:", err);
         setLoading(false);
       });
   }, []);

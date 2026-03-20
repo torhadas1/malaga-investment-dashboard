@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   basePath: '/malaga-investment-dashboard',
+  env: {
+    NEXT_PUBLIC_BASE_PATH: '/malaga-investment-dashboard',
+  },
 };
 
 export default nextConfig;
