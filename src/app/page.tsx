@@ -48,7 +48,7 @@ export default function Dashboard() {
         <div className="text-center space-y-4">
           <div className="animate-spin h-12 w-12 border-4 border-primary border-t-transparent rounded-full mx-auto" />
           <p className="text-lg font-semibold">Loading Málaga Investment Dashboard…</p>
-          <p className="text-sm text-muted-foreground">237 properties · 8 districts · Q1 2026</p>
+          <p className="text-sm text-muted-foreground">{listings.length} properties · 8 districts · Q1 2026</p>
         </div>
       </div>
     );
@@ -66,7 +66,7 @@ export default function Dashboard() {
                   🏡 Málaga Investment Dashboard
                 </h1>
                 <p className="text-xs text-muted-foreground">
-                  Q1 2026 · {listings.length} properties · Fotocasa + Pisos.com · Budget &lt;€600k
+                  Q1 2026 · {listings.length} properties · Idealista + Fotocasa + Pisos.com · Budget &lt;€600k
                 </p>
               </div>
               <div className="flex items-center gap-2">
