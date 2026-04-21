@@ -31,7 +31,7 @@ export function KidsEditor({ kids, onChange }: Props) {
   return (
     <div className="space-y-2">
       {kids.length === 0 && (
-        <div className="text-xs text-muted-foreground italic">No kids in plan yet.</div>
+        <div className="text-xs text-muted-foreground italic">אין ילדים בתוכנית עדיין.</div>
       )}
       {kids.map((k, i) => (
         <div
@@ -39,9 +39,9 @@ export function KidsEditor({ kids, onChange }: Props) {
           className="flex items-end gap-2 rounded-lg border p-2 bg-muted/20"
         >
           <Baby className="h-4 w-4 text-muted-foreground mb-2" />
-          <div className="text-xs text-muted-foreground mb-2 w-12 shrink-0">Kid {i + 1}</div>
+          <div className="text-xs text-muted-foreground mb-2 w-12 shrink-0">ילד {i + 1}</div>
           <NumField
-            label="Arrives in year"
+            label="נולד בעוד (שנים)"
             value={k.startYear}
             onChange={(v) => updateKid(k.id, { startYear: Math.max(0, v) })}
             step={1}
@@ -49,7 +49,7 @@ export function KidsEditor({ kids, onChange }: Props) {
             className="flex-1"
           />
           <NumField
-            label="+Monthly cost"
+            label="+ עלות חודשית"
             value={k.monthlyCost}
             onChange={(v) => updateKid(k.id, { monthlyCost: v })}
             suffix="₪"
@@ -60,14 +60,14 @@ export function KidsEditor({ kids, onChange }: Props) {
             variant="destructive"
             size="icon-sm"
             onClick={() => removeKid(k.id)}
-            aria-label="Remove kid"
+            aria-label="הסר ילד"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
         </div>
       ))}
       <Button variant="outline" size="sm" onClick={addKid} className="w-full">
-        <Plus className="h-3.5 w-3.5" /> Add kid
+        <Plus className="h-3.5 w-3.5" /> הוסף ילד
       </Button>
     </div>
   );

@@ -28,41 +28,41 @@ export function InputPanel({ state, setState }: Props) {
       <Card size="sm">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
-            <Wallet className="h-4 w-4" /> Portfolio & growth
+            <Wallet className="h-4 w-4" /> תיק השקעות וצמיחה
           </CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-2">
           <NumField
-            label="Starting portfolio"
+            label="תיק התחלתי"
             value={state.portfolio}
             onChange={(v) => setState((s) => ({ ...s, portfolio: v }))}
             suffix="₪"
             step={10_000}
           />
           <PercentField
-            label="Annual growth"
+            label="תשואה שנתית"
             value={state.growthRate}
             onChange={(v) => setState((s) => ({ ...s, growthRate: v }))}
-            hint="Real return, after inflation"
+            hint="ריאלית, אחרי אינפלציה"
           />
           <PercentField
-            label="Safe withdrawal (SWR)"
+            label="שיעור משיכה בטוח"
             value={state.swr}
             onChange={(v) => setState((s) => ({ ...s, swr: v }))}
-            hint="4% = classic FIRE rule"
+            hint="4% = כלל FIRE קלאסי"
           />
           <PercentField
-            label="Income growth /yr"
+            label="צמיחת הכנסה בשנה"
             value={state.incomeGrowth}
             onChange={(v) => setState((s) => ({ ...s, incomeGrowth: v }))}
           />
           <PercentField
-            label="Expense inflation /yr"
+            label="גידול הוצאות בשנה"
             value={state.expenseInflation}
             onChange={(v) => setState((s) => ({ ...s, expenseInflation: v }))}
           />
           <NumField
-            label="Horizon (years)"
+            label="אופק תכנון (שנים)"
             value={state.horizonYears}
             onChange={(v) => setState((s) => ({ ...s, horizonYears: v }))}
             step={5}
@@ -73,7 +73,7 @@ export function InputPanel({ state, setState }: Props) {
       <Card size="sm">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
-            <Users className="h-4 w-4" /> Earners
+            <Users className="h-4 w-4" /> משתכרים
           </CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -85,16 +85,24 @@ export function InputPanel({ state, setState }: Props) {
       <Card size="sm">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
-            <Home className="h-4 w-4" /> Expenses & kids
+            <Home className="h-4 w-4" /> הוצאות וילדים
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <NumField
-            label="Base monthly expenses (no kids)"
+            label="הוצאות חודשיות נוכחיות (ללא ילדים)"
             value={state.baseMonthlyExpenses}
             onChange={(v) => setState((s) => ({ ...s, baseMonthlyExpenses: v }))}
             suffix="₪"
             step={500}
+          />
+          <NumField
+            label="הוצאות חודשיות רצויות בפרישה"
+            value={state.retirementMonthlyExpenses}
+            onChange={(v) => setState((s) => ({ ...s, retirementMonthlyExpenses: v }))}
+            suffix="₪"
+            step={500}
+            hint="בלי ילדים תלויים, בלי משכנתא, וכד׳ — כמה אתם באמת צריכים כדי לחיות בפרישה"
           />
           <KidsEditor kids={state.kids} onChange={setKids} />
         </CardContent>
@@ -103,16 +111,16 @@ export function InputPanel({ state, setState }: Props) {
       <Card size="sm">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
-            <Sunrise className="h-4 w-4" /> Retirement
+            <Sunrise className="h-4 w-4" /> פרישה
           </CardTitle>
         </CardHeader>
         <CardContent>
           <NumField
-            label={`Target retirement age (${state.earners[0].name})`}
+            label={`גיל פרישה יעד (${state.earners[0].name})`}
             value={state.retirementAge}
             onChange={(v) => setState((s) => ({ ...s, retirementAge: v }))}
             step={1}
-            hint="Age at which active income stops; portfolio must support expenses from then on."
+            hint="הגיל בו מפסיקים לעבוד; מגיל זה התיק חייב לממן את ההוצאות."
           />
         </CardContent>
       </Card>
@@ -120,7 +128,7 @@ export function InputPanel({ state, setState }: Props) {
       <Card size="sm">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
-            <Receipt className="h-4 w-4" /> Tax settings
+            <Receipt className="h-4 w-4" /> הגדרות מס
           </CardTitle>
         </CardHeader>
         <CardContent>

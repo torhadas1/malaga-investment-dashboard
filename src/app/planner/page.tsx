@@ -20,7 +20,6 @@ export default function PlannerPage() {
   const [state, setState] = useState<PlannerState>(readInitialState);
   const [copied, setCopied] = useState(false);
 
-  // Mirror state into URL so bookmarking/sharing captures the full scenario.
   useEffect(() => {
     const encoded = encodeState(state);
     const url = new URL(window.location.href);
@@ -37,29 +36,29 @@ export default function PlannerPage() {
   };
 
   const reset = () => {
-    if (confirm("Reset all inputs to defaults?")) setState(DEFAULT_STATE);
+    if (confirm("לאפס את כל ההגדרות לברירת המחדל?")) setState(DEFAULT_STATE);
   };
 
   return (
     <TooltipProvider>
-      <div className="min-h-screen bg-background">
+      <div dir="rtl" className="min-h-screen bg-background">
         <header className="border-b bg-card sticky top-0 z-50">
           <div className="max-w-[1600px] mx-auto px-4 py-3 flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold flex items-center gap-2">
-                💰 Family Financial Planner
+                💰 מתכנן פיננסי משפחתי
               </h1>
               <p className="text-xs text-muted-foreground">
-                Live what-if modeling · Israeli tax · Retirement & kids
+                מודל תרחישים חי · מיסוי ישראלי · פרישה וילדים
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="sm" onClick={copyShare}>
                 {copied ? <Check className="h-3.5 w-3.5" /> : <Share2 className="h-3.5 w-3.5" />}
-                {copied ? "Copied!" : "Share scenario"}
+                {copied ? "הועתק!" : "שתף תרחיש"}
               </Button>
               <Button variant="ghost" size="sm" onClick={reset}>
-                <RotateCcw className="h-3.5 w-3.5" /> Reset
+                <RotateCcw className="h-3.5 w-3.5" /> איפוס
               </Button>
             </div>
           </div>
@@ -67,7 +66,7 @@ export default function PlannerPage() {
 
         <main className="max-w-[1600px] mx-auto px-4 py-4">
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(340px,2fr)_3fr] gap-4">
-            <div className="lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-88px)] lg:overflow-auto lg:pr-2">
+            <div className="lg:sticky lg:top-[72px] lg:self-start lg:max-h-[calc(100vh-88px)] lg:overflow-auto lg:pl-2">
               <InputPanel state={state} setState={setState} />
             </div>
             <div>
@@ -77,8 +76,8 @@ export default function PlannerPage() {
         </main>
 
         <footer className="border-t mt-8 py-4 px-4 text-center text-[10px] text-muted-foreground">
-          <p>All numbers are nominal NIS. Growth rate can be entered as real (inflation-adjusted) to read results in today&apos;s money.</p>
-          <p>⚠️ This is a discussion tool, not financial advice. Tax model is approximate — verify specifics with an accountant.</p>
+          <p>כל הסכומים בשקלים. ניתן להזין צמיחה ריאלית (נטו-אינפלציה) ולקרוא את התוצאות בשקלי היום.</p>
+          <p>⚠️ כלי לדיון משפחתי, לא ייעוץ פיננסי. מודל המס מקורב — יש לוודא פרטים מדויקים עם רו&quot;ח.</p>
         </footer>
       </div>
     </TooltipProvider>

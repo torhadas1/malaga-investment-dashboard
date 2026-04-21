@@ -21,21 +21,23 @@ export function PortfolioChart({ sim, state }: Props) {
     year: r.year,
     age: r.age1,
     portfolio: Math.round(r.portfolio),
-    target25x: Math.round(r.expenses / state.swr),
+    coastProjection: r.age1 <= state.retirementAge ? Math.round(r.coastProjection) : null,
   }));
+  const target = Math.round(sim.retirementTargetAnnual / state.swr);
+
   return (
     <Card size="sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">Portfolio value over time</CardTitle>
+        <CardTitle className="text-sm">ערך התיק לאורך זמן</CardTitle>
       </CardHeader>
-      <CardContent className="h-72">
+      <CardContent className="h-72" dir="ltr">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
             <XAxis
               dataKey="age"
               tick={{ fontSize: 10 }}
-              label={{ value: `Age (${state.earners[0].name})`, fontSize: 10, position: "insideBottom", offset: -2 }}
+              label={{ value: `גיל (${state.earners[0].name})`, fontSize: 10, position: "insideBottom", offset: -2 }}
             />
             <YAxis
               tick={{ fontSize: 10 }}
@@ -43,15 +45,21 @@ export function PortfolioChart({ sim, state }: Props) {
             />
             <RTooltip
               formatter={(v: unknown) => formatNISFull(Number(v))}
-              labelFormatter={(age) => `Age ${age}`}
+              labelFormatter={(age) => `גיל ${age}`}
               contentStyle={tipStyle}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
             <ReferenceLine
+              y={target}
+              stroke="#f59e0b"
+              strokeDasharray="5 3"
+              label={{ value: "יעד פרישה", fontSize: 10, fill: "#f59e0b", position: "insideTopRight" }}
+            />
+            <ReferenceLine
               x={state.retirementAge}
               stroke="#ef4444"
               strokeDasharray="4 2"
-              label={{ value: "Retire", fontSize: 10, fill: "#ef4444" }}
+              label={{ value: "פרישה", fontSize: 10, fill: "#ef4444" }}
             />
             {sim.fiAge !== null && (
               <ReferenceLine
@@ -61,22 +69,31 @@ export function PortfolioChart({ sim, state }: Props) {
                 label={{ value: "FI", fontSize: 10, fill: "#10b981" }}
               />
             )}
+            {sim.coastFiAge !== null && (
+              <ReferenceLine
+                x={sim.coastFiAge}
+                stroke="#06b6d4"
+                strokeDasharray="4 2"
+                label={{ value: "Coast FI", fontSize: 10, fill: "#06b6d4" }}
+              />
+            )}
             <Line
               type="monotone"
               dataKey="portfolio"
-              name="Portfolio"
+              name="תיק"
               stroke="#3b82f6"
               strokeWidth={2}
               dot={false}
             />
             <Line
               type="monotone"
-              dataKey="target25x"
-              name="25× expenses (FI target)"
-              stroke="#f59e0b"
+              dataKey="coastProjection"
+              name="תחזית בלי חיסכון נוסף"
+              stroke="#06b6d4"
               strokeWidth={1.5}
               strokeDasharray="5 3"
               dot={false}
+              connectNulls
             />
           </LineChart>
         </ResponsiveContainer>
@@ -94,9 +111,9 @@ export function IncomeExpensesChart({ sim, state }: Props) {
   return (
     <Card size="sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">Monthly net income vs expenses</CardTitle>
+        <CardTitle className="text-sm">הכנסה נטו מול הוצאות (חודשי)</CardTitle>
       </CardHeader>
-      <CardContent className="h-60">
+      <CardContent className="h-60" dir="ltr">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
@@ -104,7 +121,7 @@ export function IncomeExpensesChart({ sim, state }: Props) {
             <YAxis tick={{ fontSize: 10 }} tickFormatter={(v: number) => formatNIS(v)} />
             <RTooltip
               formatter={(v: unknown) => formatNISFull(Number(v))}
-              labelFormatter={(age) => `Age ${age}`}
+              labelFormatter={(age) => `גיל ${age}`}
               contentStyle={tipStyle}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -116,7 +133,7 @@ export function IncomeExpensesChart({ sim, state }: Props) {
             <Area
               type="monotone"
               dataKey="netIncome"
-              name="Net income /mo"
+              name="הכנסה נטו/חודש"
               stroke="#10b981"
               fill="#10b98133"
               strokeWidth={2}
@@ -124,7 +141,7 @@ export function IncomeExpensesChart({ sim, state }: Props) {
             <Area
               type="monotone"
               dataKey="expenses"
-              name="Expenses /mo"
+              name="הוצאות/חודש"
               stroke="#ef4444"
               fill="#ef444433"
               strokeWidth={2}
@@ -144,9 +161,9 @@ export function SavingsBars({ sim }: Props) {
   return (
     <Card size="sm">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm">Annual savings</CardTitle>
+        <CardTitle className="text-sm">חיסכון שנתי</CardTitle>
       </CardHeader>
-      <CardContent className="h-48">
+      <CardContent className="h-48" dir="ltr">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
@@ -154,7 +171,7 @@ export function SavingsBars({ sim }: Props) {
             <YAxis tick={{ fontSize: 10 }} tickFormatter={(v: number) => formatNIS(v)} />
             <RTooltip
               formatter={(v: unknown) => formatNISFull(Number(v))}
-              labelFormatter={(age) => `Age ${age}`}
+              labelFormatter={(age) => `גיל ${age}`}
               contentStyle={tipStyle}
             />
             <ReferenceLine y={0} stroke="#888" />

@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { formatNIS, formatNISFull } from "../lib/state";
 import type { SimResult } from "../lib/simulate";
 import type { PlannerState } from "../lib/defaults";
-import { Flag, Hourglass, PiggyBank, Coins, Shield } from "lucide-react";
+import { Flag, Hourglass, PiggyBank, Coins, Shield, Anchor } from "lucide-react";
 
 interface Props {
   sim: SimResult;
@@ -14,49 +14,60 @@ interface Props {
 export function SummaryCards({ sim, state }: Props) {
   const retRow = sim.retirementRow;
   const sustainable = retRow ? retRow.sustainableMonthly : null;
-  const projectedMonthlyExpensesAtRet = retRow ? retRow.expenses / 12 : null;
+  const retirementMonthly = retRow ? retRow.expenses / 12 : null;
   const ratio =
-    sustainable !== null && projectedMonthlyExpensesAtRet
-      ? sustainable / projectedMonthlyExpensesAtRet
+    sustainable !== null && retirementMonthly
+      ? sustainable / retirementMonthly
       : null;
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
       <Tile
         icon={<Flag className="h-4 w-4" />}
-        label="FI age"
+        label="גיל FI"
         value={sim.fiAge !== null ? `${sim.fiAge}` : "—"}
-        sub={sim.fiYear !== null ? `in year ${sim.fiYear}` : "not reached in horizon"}
+        sub={sim.fiYear !== null ? `בעוד ${sim.fiYear} שנים` : "לא הושג באופק"}
         accent={sim.fiAge !== null ? "ok" : "warn"}
       />
       <Tile
+        icon={<Anchor className="h-4 w-4" />}
+        label="גיל Coast FI"
+        value={sim.coastFiAge !== null ? `${sim.coastFiAge}` : "—"}
+        sub={
+          sim.coastFiYear !== null
+            ? `מגיל זה ניתן להפסיק לחסוך`
+            : "לא הושג באופק"
+        }
+        accent={sim.coastFiAge !== null ? "ok" : "warn"}
+      />
+      <Tile
         icon={<Hourglass className="h-4 w-4" />}
-        label="Years to FI"
+        label="שנים עד FI"
         value={sim.fiYear !== null ? `${sim.fiYear}` : "—"}
-        sub={sim.fiYear !== null ? "from today" : ""}
+        sub={sim.fiYear !== null ? "מהיום" : ""}
       />
       <Tile
         icon={<PiggyBank className="h-4 w-4" />}
-        label={`Portfolio @ age ${state.retirementAge}`}
+        label={`תיק בגיל ${state.retirementAge}`}
         value={retRow ? formatNIS(retRow.portfolio) : "—"}
         sub={retRow ? formatNISFull(retRow.portfolio) : ""}
       />
       <Tile
         icon={<Coins className="h-4 w-4" />}
-        label="Sustainable /mo"
+        label="משיכה חודשית ברת קיימא"
         value={sustainable !== null ? formatNIS(sustainable) + "₪" : "—"}
         sub={
           ratio !== null
-            ? `${(ratio * 100).toFixed(0)}% of expenses`
+            ? `${(ratio * 100).toFixed(0)}% מההוצאות בפרישה`
             : ""
         }
         accent={ratio !== null ? (ratio >= 1 ? "ok" : "warn") : undefined}
       />
       <Tile
         icon={<Shield className="h-4 w-4" />}
-        label="Survives horizon?"
-        value={sim.survivesToEnd ? "Yes" : "No"}
-        sub={`end age ${state.earners[0].currentAge + state.horizonYears}`}
+        label="שורד את האופק?"
+        value={sim.survivesToEnd ? "כן" : "לא"}
+        sub={`גיל סיום: ${state.earners[0].currentAge + state.horizonYears}`}
         accent={sim.survivesToEnd ? "ok" : "warn"}
       />
     </div>

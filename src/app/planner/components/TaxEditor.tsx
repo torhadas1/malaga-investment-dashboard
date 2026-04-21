@@ -27,22 +27,22 @@ export function TaxEditor({ config, onChange }: Props) {
           onClick={() => setOpen(!open)}
           className="flex items-center gap-1 text-xs font-medium hover:text-primary"
         >
-          {open ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5" />}
-          Tax brackets & social insurance (Israel 2026)
+          {open ? <ChevronDown className="h-3.5 w-3.5" /> : <ChevronRight className="h-3.5 w-3.5 rotate-180" />}
+          מדרגות מס וביטוח סוציאלי (ישראל 2026)
         </button>
         {open && (
           <Button variant="ghost" size="xs" onClick={() => onChange(DEFAULT_TAX_CONFIG)}>
-            <RotateCcw className="h-3 w-3" /> Reset
+            <RotateCcw className="h-3 w-3" /> איפוס
           </Button>
         )}
       </div>
       {open && (
         <div className="rounded-lg border p-3 space-y-3 bg-muted/20">
           <div>
-            <div className="text-xs font-medium mb-1.5">Progressive income tax (monthly NIS)</div>
+            <div className="text-xs font-medium mb-1.5">מס הכנסה פרוגרסיבי (₪/חודש)</div>
             <div className="grid grid-cols-[1fr_1fr_auto] gap-2 items-end text-[11px]">
-              <span className="text-muted-foreground">Up to (₪/mo)</span>
-              <span className="text-muted-foreground">Rate (%)</span>
+              <span className="text-muted-foreground">עד (₪/חודש)</span>
+              <span className="text-muted-foreground">שיעור (%)</span>
               <span />
               {config.brackets.map((b, i) => (
                 <div key={i} className="contents">
@@ -51,7 +51,7 @@ export function TaxEditor({ config, onChange }: Props) {
                     value={b.upTo ?? 0}
                     onChange={(v) => updateBracket(i, { upTo: v === 0 ? null : v })}
                     step={100}
-                    hint={b.upTo === null ? "∞ (top bracket)" : undefined}
+                    hint={b.upTo === null ? "∞ (מדרגה עליונה)" : undefined}
                   />
                   <NumField
                     label=""
@@ -68,12 +68,12 @@ export function TaxEditor({ config, onChange }: Props) {
 
           <div className="grid grid-cols-2 gap-3">
             <SocialPanel
-              title="Employee"
+              title="שכיר"
               rates={config.employee}
               onChange={(r) => onChange({ ...config, employee: r })}
             />
             <SocialPanel
-              title="Freelancer (עצמאי)"
+              title="עצמאי"
               rates={config.freelancer}
               onChange={(r) => onChange({ ...config, freelancer: r })}
             />
@@ -81,19 +81,19 @@ export function TaxEditor({ config, onChange }: Props) {
 
           <div className="grid grid-cols-3 gap-2">
             <NumField
-              label="Reduced ceiling ₪/mo"
+              label="תקרה מופחתת ₪/ח׳"
               value={config.reducedCeiling}
               onChange={(v) => onChange({ ...config, reducedCeiling: v })}
               step={100}
             />
             <NumField
-              label="Full ceiling ₪/mo"
+              label="תקרה מלאה ₪/ח׳"
               value={config.fullCeiling}
               onChange={(v) => onChange({ ...config, fullCeiling: v })}
               step={100}
             />
             <NumField
-              label="Credit point ₪/mo"
+              label="נק׳ זיכוי ₪/ח׳"
               value={config.creditPointValue}
               onChange={(v) => onChange({ ...config, creditPointValue: v })}
               step={1}
@@ -119,28 +119,28 @@ function SocialPanel({
       <div className="text-xs font-medium">{title}</div>
       <div className="grid grid-cols-2 gap-2">
         <NumField
-          label="BL low %"
+          label="ביט״ל נמוך"
           value={Math.round(rates.blLow * 10000) / 100}
           onChange={(v) => onChange({ ...rates, blLow: v / 100 })}
           step={0.1}
           suffix="%"
         />
         <NumField
-          label="BL high %"
+          label="ביט״ל גבוה"
           value={Math.round(rates.blHigh * 10000) / 100}
           onChange={(v) => onChange({ ...rates, blHigh: v / 100 })}
           step={0.1}
           suffix="%"
         />
         <NumField
-          label="Health low %"
+          label="בריאות נמוך"
           value={Math.round(rates.healthLow * 10000) / 100}
           onChange={(v) => onChange({ ...rates, healthLow: v / 100 })}
           step={0.1}
           suffix="%"
         />
         <NumField
-          label="Health high %"
+          label="בריאות גבוה"
           value={Math.round(rates.healthHigh * 10000) / 100}
           onChange={(v) => onChange({ ...rates, healthHigh: v / 100 })}
           step={0.1}

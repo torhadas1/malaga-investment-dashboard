@@ -78,6 +78,7 @@ export interface PlannerState {
   expenseInflation: number; // annual, decimal
   incomeGrowth: number; // annual, decimal
   baseMonthlyExpenses: number; // current monthly expenses (ex-kids)
+  retirementMonthlyExpenses: number; // desired monthly expenses once retired, in today's NIS
   earners: [EarnerState, EarnerState];
   kids: Kid[];
   horizonYears: number; // how far to project (e.g. 60)
@@ -92,9 +93,10 @@ export const DEFAULT_STATE: PlannerState = {
   expenseInflation: 0,
   incomeGrowth: 0,
   baseMonthlyExpenses: 15_000,
+  retirementMonthlyExpenses: 12_000,
   earners: [
-    { name: "Tor", employeeGross: 20_000, freelancerGross: 5_000, creditPoints: 2.25, currentAge: 32 },
-    { name: "Shira", employeeGross: 0, freelancerGross: 15_000, creditPoints: 2.75, currentAge: 30 },
+    { name: "תור", employeeGross: 20_000, freelancerGross: 5_000, creditPoints: 2.25, currentAge: 32 },
+    { name: "שירה", employeeGross: 0, freelancerGross: 15_000, creditPoints: 2.75, currentAge: 30 },
   ],
   kids: [],
   horizonYears: 50,

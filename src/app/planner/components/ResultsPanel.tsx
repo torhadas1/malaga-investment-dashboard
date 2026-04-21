@@ -7,7 +7,7 @@ import { formatNISFull } from "../lib/state";
 import type { SimResult } from "../lib/simulate";
 import type { PlannerState } from "../lib/defaults";
 import { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronLeft } from "lucide-react";
 
 interface Props {
   sim: SimResult;
@@ -36,8 +36,8 @@ function YearTable({ sim }: { sim: SimResult }) {
             onClick={() => setOpen(!open)}
             className="flex items-center gap-1 hover:text-primary"
           >
-            {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-            Year-by-year table
+            {open ? <ChevronDown className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+            טבלה שנתית
           </button>
         </CardTitle>
       </CardHeader>
@@ -45,13 +45,13 @@ function YearTable({ sim }: { sim: SimResult }) {
         <CardContent className="overflow-auto max-h-96">
           <table className="w-full text-xs">
             <thead className="sticky top-0 bg-card">
-              <tr className="text-left text-muted-foreground border-b">
-                <th className="py-1 px-1">Age</th>
-                <th className="py-1 px-1 text-right">Net income</th>
-                <th className="py-1 px-1 text-right">Expenses</th>
-                <th className="py-1 px-1 text-right">Savings</th>
-                <th className="py-1 px-1 text-right">Portfolio</th>
-                <th className="py-1 px-1 text-right">Sust. /mo</th>
+              <tr className="text-right text-muted-foreground border-b">
+                <th className="py-1 px-1">גיל</th>
+                <th className="py-1 px-1 text-left">הכנסה נטו</th>
+                <th className="py-1 px-1 text-left">הוצאות</th>
+                <th className="py-1 px-1 text-left">חיסכון</th>
+                <th className="py-1 px-1 text-left">תיק</th>
+                <th className="py-1 px-1 text-left">ברת קיימא/ח׳</th>
                 <th className="py-1 px-1 text-center">FI</th>
               </tr>
             </thead>
@@ -59,13 +59,13 @@ function YearTable({ sim }: { sim: SimResult }) {
               {sim.rows.map((r) => (
                 <tr key={r.year} className={`border-b border-border/30 ${r.retired ? "text-muted-foreground" : ""}`}>
                   <td className="py-0.5 px-1">{r.age1}</td>
-                  <td className="py-0.5 px-1 text-right">{formatNISFull(r.netIncome)}</td>
-                  <td className="py-0.5 px-1 text-right">{formatNISFull(r.expenses)}</td>
-                  <td className={`py-0.5 px-1 text-right ${r.savings < 0 ? "text-destructive" : ""}`}>
+                  <td className="py-0.5 px-1 text-left">{formatNISFull(r.netIncome)}</td>
+                  <td className="py-0.5 px-1 text-left">{formatNISFull(r.expenses)}</td>
+                  <td className={`py-0.5 px-1 text-left ${r.savings < 0 ? "text-destructive" : ""}`}>
                     {formatNISFull(r.savings)}
                   </td>
-                  <td className="py-0.5 px-1 text-right font-medium">{formatNISFull(r.portfolio)}</td>
-                  <td className="py-0.5 px-1 text-right">{formatNISFull(r.sustainableMonthly)}</td>
+                  <td className="py-0.5 px-1 text-left font-medium">{formatNISFull(r.portfolio)}</td>
+                  <td className="py-0.5 px-1 text-left">{formatNISFull(r.sustainableMonthly)}</td>
                   <td className="py-0.5 px-1 text-center">{r.fiReached ? "✓" : ""}</td>
                 </tr>
               ))}

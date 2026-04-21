@@ -32,7 +32,7 @@ export function EarnerCard({ earner, onChange, tax }: Props) {
             className="bg-transparent font-medium text-sm focus:outline-none focus:ring-1 focus:ring-primary rounded px-1 -mx-1 max-w-[10rem]"
           />
           <span className="text-xs text-muted-foreground font-normal">
-            Age <input
+            גיל <input
               type="number"
               value={earner.currentAge}
               onChange={(e) => onChange({ ...earner, currentAge: parseInt(e.target.value) || 0 })}
@@ -44,14 +44,14 @@ export function EarnerCard({ earner, onChange, tax }: Props) {
       <CardContent className="space-y-3">
         <div className="grid grid-cols-2 gap-2">
           <NumField
-            label="Employee gross /mo"
+            label="שכיר ברוטו/חודש"
             value={earner.employeeGross}
             onChange={(v) => onChange({ ...earner, employeeGross: v })}
             suffix="₪"
             step={500}
           />
           <NumField
-            label="Freelancer gross /mo"
+            label="עצמאי ברוטו/חודש"
             value={earner.freelancerGross}
             onChange={(v) => onChange({ ...earner, freelancerGross: v })}
             suffix="₪"
@@ -59,34 +59,34 @@ export function EarnerCard({ earner, onChange, tax }: Props) {
           />
         </div>
         <NumField
-          label="Credit points"
+          label="נקודות זיכוי"
           value={earner.creditPoints}
           onChange={(v) => onChange({ ...earner, creditPoints: v })}
           step={0.25}
-          hint="Default: 2.25 (resident man), 2.75 (resident woman)"
+          hint="ברירת מחדל: 2.25 גבר, 2.75 אישה"
         />
 
         <div className="rounded-lg bg-muted/40 p-2.5 space-y-1 text-xs">
-          <Row label="Gross" value={formatNISFull(breakdown.gross)} bold />
-          <Row label="– Income tax" value={`-${formatNISFull(breakdown.incomeTax)}`} />
-          <Row label="– Bituach Leumi" value={`-${formatNISFull(breakdown.bituachLeumi)}`} />
-          <Row label="– Health" value={`-${formatNISFull(breakdown.health)}`} />
+          <Row label="ברוטו" value={formatNISFull(breakdown.gross)} bold />
+          <Row label="– מס הכנסה" value={`-${formatNISFull(breakdown.incomeTax)}`} />
+          <Row label="– ביטוח לאומי" value={`-${formatNISFull(breakdown.bituachLeumi)}`} />
+          <Row label="– מס בריאות" value={`-${formatNISFull(breakdown.health)}`} />
           <div className="border-t border-border/50 my-1" />
-          <Row label="Net /month" value={formatNISFull(breakdown.net)} bold accent />
+          <Row label="נטו/חודש" value={formatNISFull(breakdown.net)} bold accent />
           <Row
-            label="Effective / marginal"
+            label="אפקטיבי / שולי"
             value={`${(breakdown.effectiveRate * 100).toFixed(1)}% / ${(marginalBracket * 100).toFixed(0)}%`}
           />
         </div>
 
         <div className="rounded-lg border border-dashed border-border p-2.5 space-y-2">
-          <div className="text-xs font-medium">I want to net…</div>
+          <div className="text-xs font-medium">אני רוצה להרוויח נטו…</div>
           <div className="flex items-center gap-2">
             <NumField
               label=""
               value={netTarget}
               onChange={setNetTarget}
-              suffix="₪/mo"
+              suffix="₪/חודש"
               step={500}
               className="flex-1"
             />
@@ -94,11 +94,11 @@ export function EarnerCard({ earner, onChange, tax }: Props) {
           {suggested && netTarget > 0 && (
             <div className="text-xs space-y-0.5">
               <div>
-                …so you need gross: <span className="font-semibold">{formatNISFull(suggested.gross)}/mo</span>
+                …אז צריך ברוטו של: <span className="font-semibold">{formatNISFull(suggested.gross)}/חודש</span>
               </div>
               <div className="text-muted-foreground">
-                Extra vs today: {formatNISFull(suggested.gross - breakdown.gross)} gross →{" "}
-                {formatNISFull(suggested.breakdown.net - breakdown.net)} net
+                תוספת ביחס להיום: {formatNISFull(suggested.gross - breakdown.gross)} ברוטו ←{" "}
+                {formatNISFull(suggested.breakdown.net - breakdown.net)} נטו
               </div>
             </div>
           )}
